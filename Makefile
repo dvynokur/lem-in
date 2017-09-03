@@ -2,14 +2,14 @@ LEM-IN_NAME = lem-in
 
 LIBRARY = libft/libft.a
 
-LEM_C = find_parameters lem-in links making_rooms printing finding_path
+LEM_C = find_parameters lem-in links making_rooms printing finding_path ants
 
 LEM-IN_DIR = src/
 
 OBJ_LEM-IN = $(addprefix $(LEM-IN_DIR),$(addsuffix .o,$(LEM_C)))
 
 
-FLAGS = -Wall -Wextra -Werror
+# FLAGS = -Wall -Wextra -Werror
 
 all: lib lem-in 
 

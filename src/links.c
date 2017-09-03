@@ -71,17 +71,18 @@ void	filling_links(t_room *room, char *first_link)
 	else
 		ft_error();
 	while (get_next_line(0, &buf))
-	{
-		if (strncmp(buf, "#", 1) && check_if_link(buf))
+		if (strncmp(buf, "#", 1))
 		{
-			one_link = ft_strsplit(buf, '-');
-			if (find_name(room, one_link[0]) && find_name(room, one_link[1]))
-				adding_link_to_room(room, one_link[0], one_link[1]);
+			if (check_if_link(buf))
+			{
+				one_link = ft_strsplit(buf, '-');
+				if (find_name(room, one_link[0]) && find_name(room, one_link[1]))
+					adding_link_to_room(room, one_link[0], one_link[1]);
+				else
+					ft_error();
+			}
 			else
 				ft_error();
-		}
-		else
-			ft_error();
 	}
 }
 
@@ -95,6 +96,7 @@ int		check_if_link(char *s)
 	i = 0;
 	count = 0;
 	space = 0;
+
 	while (i < ft_strlen(s))
 	{
 		if (s[i] == '-')

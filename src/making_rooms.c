@@ -42,7 +42,9 @@ t_room	*filling_rooms()
 			{
 				room_split = ft_strsplit(buf, ' ');
 				if (find_coord(temp, ft_atoi(room_split[1]), ft_atoi(room_split[2])) || find_name(temp, room_split[0]))
+				{
 					ft_error();
+				}
 				room->room_name = room_split[0];
 				room->x = ft_atoi(room_split[1]);
 				room->y = ft_atoi(room_split[2]);
@@ -72,7 +74,10 @@ int		if_correct_room(char *buf)
 	}
 	if ((count != 2) || (buf[0] == ' ' || buf[ft_strlen(buf)] == ' ') ||
 		buf[0] == 'L' || buf[0] == '#')
+	{
+
 		ft_error();
+	}
 	check_coords(buf);
 	return (1);
 }
@@ -113,6 +118,7 @@ int 	status_check(char *buf, int status, t_room *room)
 	}
 	else if (!strcmp(buf, "##end"))
 	{
+
 		if (find_status(room, 2))
 			ft_error();
 		status = 2;

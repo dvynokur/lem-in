@@ -85,14 +85,22 @@ int				correct_num(void);
 // Printing
 void			print_links(t_link *l);
 void 			print_rooms(t_room *room);
+void			print_ways(t_path *path);
 
-//=============================== Algorithm =============================
+
+//=============================== Finding path =========================
+t_room			*find_first_end(t_room *rooms, int status);
+t_room			*find_room(t_room *rooms, char *name);
+void			writing_complexity(t_room *rooms, int i);
+void			filling_complexity(t_room *rooms, t_room *current, int i);
 t_path			*create_path();
 t_path			*finding_path(t_room *rooms);
-void			filling_ways(t_room *rooms, t_room *current, t_path *path);
+int				filling_ways(t_room *rooms, t_room *current, t_path *path);
 t_room			*find_first_end(t_room *rooms, int status);
-void	filling_path_structure(t_path *path, t_room *current);
+void			filling_path_structure(t_path *path, t_room *current, t_room *rooms);
 
+//=============================== Running ants =========================
+void			running_ants(t_room *rooms, t_path *path, int n_ants);
 
 
 #endif

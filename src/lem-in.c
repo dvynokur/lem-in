@@ -18,8 +18,8 @@ t_room	*create_room(void)
 
 	room = (t_room *)malloc(sizeof(t_room));
 	room->room_name = NULL;
-	room->x = 0;
-	room->y = 0;
+	room->x = -1;
+	room->y = -1;
 	room->ant = 0;
 	room->complexity = 0;
 	room->status = 0;
@@ -97,17 +97,18 @@ int 	main(void)
 {
 	int 	n_ants;
 	t_room	*room;
+	t_path	*path;
 
+	path = NULL;
 	n_ants = correct_num();
-
 	room = filling_rooms();
 	room->max_ways = finding_max_ways(room);
-	// printf("%smax ways: %d\n%s", BLUE, room->max_ways, RESET);
-
-//	if (!if_is_start_end(room))
-//		ft_error();
-
-	finding_path(room);
+	path = finding_path(room);
+	
+	print_ways(path);
+	
+	running_ants(room, path, n_ants);
+	// print_rooms(room);
 
 	return (0);
 }

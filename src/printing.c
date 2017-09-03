@@ -41,6 +41,29 @@ void	print_links(t_link *l)
 	printf("\n");
 }
 
+void	print_ways(t_path *path)
+{
+	t_path	*p;
+	t_link	*l;
+
+	p = path;
+	l = path->links;
+
+	while (p)
+	{
+		printf("%spath complexity: %d\n", CYAN, p->complexity);
+		l = p->links;
+		while (l)
+		{
+			printf("%s ", l->room_name);
+			l = l->next;
+		}
+		printf("\n");
+		p = p->next;
+	}
+	printf("%s", RESET);
+}
+
 void 	print_rooms(t_room *room)
 {
 	t_room	*p;
@@ -58,6 +81,8 @@ void 	print_rooms(t_room *room)
 		printf("status: %d\n", p->status);
 		printf("complexity: %d\n", p->complexity);
 		printf("max_ways: %d\n", p->max_ways);
+		printf("occupied: %d\n", p->occupied);
+		printf("ant: %d\n", p->ant);
 		print_links(p->links);
 		printf("%s=====================================================================%s\n", RED, RESET);
 	}
@@ -72,7 +97,9 @@ void 	print_rooms(t_room *room)
 			printf("status: %d\n", p->status);
 			printf("complexity: %d\n", p->complexity);
 			printf("max_ways: %d\n", p->max_ways);
+			printf("occupied: %d\n", p->occupied);
 			print_links(p->links);
+			printf("ant: %d\n", p->ant);
 			p = p->next;
 		}
 	}
