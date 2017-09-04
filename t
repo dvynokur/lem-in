@@ -10,7 +10,7 @@ start 2 3
 end 8 9
 8 9 0
 9 0 1
-start-2
+start-end
 2-3
 3-4
 4-5

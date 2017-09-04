@@ -1,11 +1,9 @@
-11
+20
 ##start
 start 0 1
 ##end
-#watch_ant 10
 end 1 0
 0 0 0
-##watch_ant 10
 1 1 1
 2 2 2
 3 3 3

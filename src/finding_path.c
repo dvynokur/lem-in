@@ -110,9 +110,13 @@ int		filling_ways(t_room *rooms, t_room *current, t_path *path)
 	temp = NULL;
 	p = path;
 	l = current->links;
+	if (current == find_first_end(rooms, 2))
+	{
+		p->links = create_link();
+		p->links->room_name = find_first_end(rooms, 2)->room_name;
+	}
 	while (l)
 	{
-		// printf("l->room : %10s\n", l->room_name);
 		r = find_room(rooms, l->room_name);
 		if (r->occupied == 0 && r != find_first_end(rooms, 2))
 		{
@@ -147,20 +151,20 @@ void	filling_path_structure(t_path *path, t_room *current, t_room *rooms)
 	if (ft_strcmp(current->room_name, find_first_end(rooms, 1)->room_name))
 	{
 		current->occupied = 1;
-	}
-	if (path->complexity == 0)
-		path->complexity = current->complexity;
-	if (path->links == NULL)
-	{
-		path->links = create_link();
-		path->links->room_name = current->room_name;
-	}
-	else
-	{
-		new = create_link();
-		new->next = path->links;
-		path->links = new;
-		new->room_name = current->room_name;
+		if (path->complexity == 0)
+			path->complexity = current->complexity;
+		if (path->links == NULL)
+		{
+			path->links = create_link();
+			path->links->room_name = current->room_name;
+		}
+		else
+		{
+			new = create_link();
+			new->next = path->links;
+			path->links = new;
+			new->room_name = current->room_name;
+		}
 	}
 }
 
@@ -183,6 +187,7 @@ t_path	*finding_path(t_room *rooms)
 	path = create_path();
 	p = path;
 	end = find_first_end(rooms, 2);
+	printf("max_ways: %d\n", rooms->max_ways);
 	while (i < rooms->max_ways)
 	{
 		if (filling_ways(rooms, end, p) && i + 1 < rooms->max_ways)
