@@ -40,7 +40,7 @@ typedef struct		s_room
 	int 			status;
 	int				max_ways;
 	int				occupied;
-	int				n_ants;
+	int				n_ants
 	struct s_room	*next;
 	t_link			*links;
 }					t_room;

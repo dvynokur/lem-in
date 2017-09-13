@@ -135,11 +135,7 @@ int 	main(void)
 	if (start_end_connected(room))
 		exit (0);
 	path = finding_path(room);
-	
 	print_ways(path);
-	
 	running_ants(room, path, n_ants);
-	// print_rooms(room);
-
 	return (0);
 }
