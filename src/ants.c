@@ -20,11 +20,6 @@ void	adding_ants(t_room *rooms, t_link *before, t_link *current, int ant_name)
 	if (current)
 	{
 		adding_ants(rooms, current, current->next, ant_name);
-		// if (current_room == find_first_end(rooms, 2))
-		// {
-		// 	printf("!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-		// 	current_room->ant = 0;
-		// }
 		if (before != NULL)
 		{
 
@@ -76,18 +71,13 @@ void	moving_rest_ants(t_room *rooms, t_link *current, t_link *next)
 	t_room	*next_room;
 	t_room	*current_room;
 		
-	// moving_rest_ants(rooms, current->next, next->next);
-
 	if (next)
 	{
-
 		moving_rest_ants(rooms, current->next, next->next);
 		next_room = find_room(rooms, next->room_name);
 		current_room = find_room(rooms, current->room_name);
 		if (next_room == find_first_end(rooms, 2))
-		{
 			next_room->ant = 0;
-		}
 		if (current_room->ant != 0)
 		{
 			next_room->ant = current_room->ant;
@@ -95,60 +85,68 @@ void	moving_rest_ants(t_room *rooms, t_link *current, t_link *next)
 			printf("L%d", next_room->ant);
 			printf("-%s ", next_room->room_name);
 		}
-		// moving_rest_ants(rooms, current->next, next->next);
 	}
 	else
 	{
-		// printf("nnnn\n");
 		current_room = find_room(rooms, current->room_name);
 		current_room->ant = 0;
-		// printf("nnnn\n");
 	}
+}
 
+int		there_is_an_ant(t_room *rooms, t_path *path)
+{
+	t_link	*l;
+
+	l = path->links;
+	while (l)
+	{
+		if (find_room(rooms, l->room_name)->ant != 0)
+			return (1);
+		l = l->next;
+	}
+	return (0);
+}
+
+void	last_movement(t_room *rooms, t_path *path)
+{
+	t_path	*p;
+
+	while (is_there_ants(rooms, path))
+	{
+		p = path;
+		while (p)
+		{
+			moving_rest_ants(rooms, p->links, p->links->next);
+			if (there_is_an_ant(rooms, p))
+				printf("\n");
+			p = p->next;
+		}
+	}
 }
 
 void	running_ants(t_room *rooms, t_path *path, int n_ants)
 {
 	int		i;
 	t_path	*p;
-	int		value;
 
 	i = 1;
 	p = path;
-	// maken_ants = 20;
 	while (i <= n_ants)
 	{
 		p = path;
-		value = p->complexity;
 		while (p && i <= n_ants)
 		{
-			// printf("\nvalue : %d\n", value);
-			// printf("p->complexity : %d\n", p->complexity);
-			// printf("n_ants - i : %d\n\n", n_ants - i);
-			
-			if (p == path || p->complexity - value < n_ants - i + 1)
+			if (p == path || p->complexity < n_ants - i + 1)
+			{
 				adding_ants(rooms, NULL, p->links, i);
-			value = p->complexity;
-			p = p->next;
-			i++;
-			printf(" ");
-		}
-		printf("\n");
-	}
-	
-
-	while (is_there_ants(rooms, path))
-	{
-		p = path;
-
-		while (p)
-		{
-			moving_rest_ants(rooms, p->links, p->links->next);
-			// if (p->next)
-			// printf("111\n");
+				i++;
+				printf("%s %s", RED, RESET);
+			}
+			else if (p->complexity >= n_ants - i + 1 && there_is_an_ant(rooms, p))
+				moving_rest_ants(rooms, p->links, p->links->next);
 			p = p->next;
 		}
 		printf("\n");
 	}
-
+	last_movement(rooms, path);
 }

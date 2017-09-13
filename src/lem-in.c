@@ -25,6 +25,7 @@ t_room	*create_room(void)
 	room->status = 0;
 	room->max_ways = 0;
 	room->occupied = 0;
+	room->n_ants = 0;
 	room->next = NULL;
 	room->links = NULL;
 	return (room);
@@ -93,6 +94,33 @@ int		finding_max_ways(t_room *rooms)
 		return (end_ways);
 }
 
+int		start_end_connected(t_room *rooms)
+{
+	t_room	*start;
+	t_room	*end;
+	t_link	*l;
+	int		i;
+
+	i = 1;
+	start = find_first_end(rooms, 1);
+	l = start->links;
+	while (l)
+	{
+		if (!ft_strcmp(l->room_name, find_first_end(rooms, 2)->room_name))
+		{
+			while (i <= rooms->n_ants)
+			{
+				printf("L%d-end ", i);
+				i++;
+			}
+			printf("\n");
+			return (1);
+		}
+		l = l->next;
+	}
+	return (0);
+}
+
 int 	main(void)
 {
 	int 	n_ants;
@@ -102,7 +130,10 @@ int 	main(void)
 	path = NULL;
 	n_ants = correct_num();
 	room = filling_rooms();
+	room->n_ants = n_ants;
 	room->max_ways = finding_max_ways(room);
+	if (start_end_connected(room))
+		exit (0);
 	path = finding_path(room);
 	
 	print_ways(path);
