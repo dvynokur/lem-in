@@ -2,7 +2,7 @@ LEM-IN_NAME = lem-in
 
 LIBRARY = libft/libft.a
 
-LEM_C = find_parameters lem-in links making_rooms printing finding_path ants
+LEM_C = find_parameters lem_in links making_rooms printing finding_path ants additional finding_path_second
 
 LEM-IN_DIR = src/
 

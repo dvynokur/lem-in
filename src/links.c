@@ -21,7 +21,8 @@ void	add_last_link(t_link *links, char *last_link)
 	p = links;
 	if (find_link(links, last_link))
 	{
-		if (p->room_name != NULL) {
+		if (p->room_name != NULL)
+		{
 			while (p->next != NULL)
 				p = p->next;
 			p->next = create_link();
@@ -62,8 +63,8 @@ void	adding_link_to_room(t_room *room, char *first_link, char *second_link)
 
 void	filling_links(t_room *room, char *first_link)
 {
-	char 	*buf;
-	char 	**one_link;
+	char	*buf;
+	char	**one_link;
 
 	one_link = ft_strsplit(first_link, '-');
 	if (find_name(room, one_link[0]) && find_name(room, one_link[1]))
@@ -76,14 +77,15 @@ void	filling_links(t_room *room, char *first_link)
 			if (check_if_link(buf))
 			{
 				one_link = ft_strsplit(buf, '-');
-				if (find_name(room, one_link[0]) && find_name(room, one_link[1]))
+				if (find_name(room, one_link[0])
+					&& find_name(room, one_link[1]))
 					adding_link_to_room(room, one_link[0], one_link[1]);
 				else
 					ft_error();
 			}
 			else
 				ft_error();
-	}
+		}
 }
 
 int		check_if_link(char *s)
@@ -91,12 +93,11 @@ int		check_if_link(char *s)
 	size_t	i;
 	int		count;
 	int		space;
-	char 	**temp;
+	char	**temp;
 
 	i = 0;
 	count = 0;
 	space = 0;
-
 	while (i < ft_strlen(s))
 	{
 		if (s[i] == '-')

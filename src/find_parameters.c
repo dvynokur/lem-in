@@ -12,7 +12,7 @@
 
 #include "../header/lem-in.h"
 
-int 	find_status(t_room *room, int status)
+int		find_status(t_room *room, int status)
 {
 	t_room *p;
 
@@ -26,10 +26,10 @@ int 	find_status(t_room *room, int status)
 	return (0);
 }
 
-int 	find_name(t_room *room, char *name)
+int		find_name(t_room *room, char *name)
 {
 	t_room	*p;
-	int 	flag;
+	int		flag;
 
 	p = room;
 	flag = 0;

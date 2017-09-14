@@ -8,17 +8,8 @@ start 2 3
 6 7 8
 ##end
 end 8 9
-8 9 0
 start-2
-start-3
-start-4
-2-end
 2-3
 3-4
-3-5
-3-8
-8-end
-4-5
-5-6
-start-end
+4-6
 6-end

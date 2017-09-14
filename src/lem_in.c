@@ -12,52 +12,6 @@
 
 #include "../header/lem-in.h"
 
-t_room	*create_room(void)
-{
-	t_room *room;
-
-	room = (t_room *)malloc(sizeof(t_room));
-	room->room_name = NULL;
-	room->x = -1;
-	room->y = -1;
-	room->ant = 0;
-	room->complexity = 0;
-	room->status = 0;
-	room->max_ways = 0;
-	room->occupied = 0;
-	room->n_ants = 0;
-	room->next = NULL;
-	room->links = NULL;
-	return (room);
-}
-
-void	ft_error()
-{
-	ft_putstr("ERROR\n");
-	exit (0);
-}
-
-t_link	*create_link(void)
-{
-	t_link	*new;
-
-	new = (t_link *)malloc(sizeof(t_link));
-	new->room_name = NULL;
-	new->next = NULL;
-	return (new);
-}
-//
-//t_path	*create_path()
-//{
-//	t_path	*new;
-//
-//	new = (t_path *)malloc(sizeof(t_path));
-//	new->complexity = 0;
-//	new->links = NULL;
-//	new->next = NULL;
-//	return (new);
-//}
-
 int		if_is_start_end(t_room *room)
 {
 	if (!find_status(room, 1) || (!find_status(room, 2)))
@@ -121,9 +75,9 @@ int		start_end_connected(t_room *rooms)
 	return (0);
 }
 
-int 	main(void)
+int		main(void)
 {
-	int 	n_ants;
+	int		n_ants;
 	t_room	*room;
 	t_path	*path;
 
@@ -133,7 +87,7 @@ int 	main(void)
 	room->n_ants = n_ants;
 	room->max_ways = finding_max_ways(room);
 	if (start_end_connected(room))
-		exit (0);
+		exit(0);
 	path = finding_path(room);
 	print_ways(path);
 	running_ants(room, path, n_ants);

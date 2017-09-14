@@ -40,7 +40,7 @@ typedef struct		s_room
 	int 			status;
 	int				max_ways;
 	int				occupied;
-	int				n_ants
+	int				n_ants;
 	struct s_room	*next;
 	t_link			*links;
 }					t_room;
@@ -99,6 +99,8 @@ t_path			*finding_path(t_room *rooms);
 int				filling_ways(t_room *rooms, t_room *current, t_path *path);
 t_room			*find_first_end(t_room *rooms, int status);
 void			filling_path_structure(t_path *path, t_room *current, t_room *rooms);
+t_room			*finding_less_complexity(t_link *link, t_room *rooms);
+void			check_if_path(t_room *rooms, t_room *end);
 
 //=============================== Running ants =========================
 void			running_ants(t_room *rooms, t_path *path, int n_ants);
