@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 t_room	*find_room(t_room *rooms, char *name)
 {

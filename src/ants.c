@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 void	adding_ants(t_room *r, t_link *b, t_link *c, int ant_name)
 {

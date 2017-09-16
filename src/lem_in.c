@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 int		if_is_start_end(t_room *room)
 {
@@ -86,25 +86,18 @@ int		main(void)
 	str = NULL;
 	path = NULL;
 	n_ants = correct_num(&str);
-	// printf("str: %s\n", str);
 	if (n_ants == 0)
 		ft_error();
 	room = filling_rooms(&str);
 	if (room->room_name == NULL)
 		ft_error();
-	
 	room->n_ants = n_ants;
 	room->max_ways = finding_max_ways(room);
 	if (start_end_connected(room, str))
-	{
-		while (1);
 		exit(0);
-	}
 	path = finding_path(room);
-	// print_ways(path);
 	ft_putstr(str);
 	ft_putstr("\n\n");
 	running_ants(room, path, n_ants);
-	while (1);
 	return (0);
 }

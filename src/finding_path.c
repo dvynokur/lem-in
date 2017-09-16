@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 t_room	*finding_less_complexity(t_link *link, t_room *rooms)
 {
@@ -121,7 +121,6 @@ t_path	*finding_path(t_room *rooms)
 	p = path;
 	end = find_first_end(rooms, 2);
 	check_if_path(rooms, end);
-	// print_rooms(rooms);
 	while (i < rooms->max_ways)
 	{
 		if (filling_ways(rooms, end, p) && i + 1 < rooms->max_ways)

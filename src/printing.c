@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 void	print_links(t_link *l)
 {
@@ -41,15 +41,7 @@ void	print_links(t_link *l)
 	printf("\n");
 }
 
-void	printing_ants(int ant, char *name, int n)
-{
-	ft_putstr("L");
-	ft_putnbr(ant);
-	ft_putstr("-");
-	ft_putstr(name);
-	if (n == 1)
-		ft_putstr(" ");
-}
+
 
 void	print_ways(t_path *path)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 t_room	*create_room(void)
 {
@@ -31,11 +31,10 @@ t_room	*create_room(void)
 	return (room);
 }
 
-void	ft_error()
+void	ft_error(void)
 {
 	ft_putstr("ERROR\n");
-	while (1);
-	exit (0);
+	exit(0);
 }
 
 t_link	*create_link(void)
@@ -48,7 +47,7 @@ t_link	*create_link(void)
 	return (new);
 }
 
-int 	status_check(char *buf, int status, t_room *room)
+int		status_check(char *buf, int status, t_room *room)
 {
 	if (status != 0 && (!ft_strcmp(buf, "##start") || !ft_strcmp(buf, "##end")))
 		ft_error();
@@ -60,7 +59,6 @@ int 	status_check(char *buf, int status, t_room *room)
 	}
 	else if (!strcmp(buf, "##end"))
 	{
-
 		if (find_status(room, 2))
 			ft_error();
 		status = 2;

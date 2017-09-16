@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 t_room	*adding_information(char *buf, t_room *temp, int *n, t_room *room)
 {
 	char	**room_split;
 	int		status;
-	int 	i;
+	int		i;
 
 	i = -1;
 	status = *(n);
@@ -37,6 +37,17 @@ t_room	*adding_information(char *buf, t_room *temp, int *n, t_room *room)
 	return (room);
 }
 
+int		links_processing(char **buf, t_room *temp, char **str)
+{
+	if (check_if_link(*buf) && if_is_start_end(temp))
+	{
+		filling_links(temp, *buf, str);
+		free(*buf);
+		return (1);
+	}
+	return (0);
+}
+
 t_room	*filling_rooms(char **str)
 {
 	t_room	*room;
@@ -53,12 +64,8 @@ t_room	*filling_rooms(char **str)
 		making_str(str, buf);
 		if (!(buf[0] == '#' && buf[1] != '#'))
 		{
-			if (check_if_link(buf) && if_is_start_end(temp))
-			{
-				filling_links(temp, buf, str);
-				free(buf);
+			if (links_processing(&buf, temp, str))
 				return (temp);
-			}
 			if (!ft_strncmp(buf, "##", 2))
 				status = status_check(buf, status, temp);
 			else if (strncmp(buf, "#", 1) && if_correct_room(buf))
@@ -115,61 +122,4 @@ void	check_coords(char *buf)
 	while (str[++i])
 		free(str[i]);
 	free(str);
-}
-
-void	making_str(char **str, char *buf)
-{
-	char *res;
-
-	res = NULL;
-	if (*str == NULL)
-	{
-		res = ft_strdup(buf);
-		*str = res;
-	}
-	else
-	{
-		res = ft_strjoin(*str, "\n");
-		free(*str);
-		*str = res;
-		res = ft_strjoin(*str, buf);
-		free(*str);
-		*str = res;
-	}
-}
-
-int		correct_num(char **str)
-{
-	size_t	i;
-	int		j;
-	char	*buf;
-
-	i = 0;
-	j = 0;
-	buf = NULL;
-	while (get_next_line(0, &buf))
-	{
-		making_str(str, buf);
-		if (!strcmp(buf, "##start") || !strcmp(buf, "##end"))
-			ft_error();
-		if (strncmp(buf, "#", 1))
-		{
-			while (buf[i] >= '0' && buf[i] <= '9')
-				i++;
-			if (i < ft_strlen(buf))
-			{
-				free(buf);
-				ft_error();
-			}
-			else
-			{
-				free(buf);
-				return (ft_atoi(buf));
-			}
-		}
-		free(buf);
-	}
-
-	ft_error();
-	return (0);
 }

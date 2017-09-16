@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/lem-in.h"
+#include "../header/lem_in.h"
 
 void	add_last_link(t_link *links, char *last_link)
 {
@@ -61,45 +61,49 @@ void	adding_link_to_room(t_room *room, char *first_link, char *second_link)
 	}
 }
 
-void	filling_links(t_room *room, char *first_link, char **str)
+void	making_links(char *buf, char ***one_link, t_room *room)
 {
-	char	*buf;
-	char	**one_link;
 	int		i;
 
-	one_link = ft_strsplit(first_link, '-');
-	if (find_name(room, one_link[0]) && find_name(room, one_link[1]))
-		adding_link_to_room(room, one_link[0], one_link[1]);
+	i = 0;
+	if (check_if_link(buf))
+	{
+		*one_link = ft_strsplit(buf, '-');
+		if (find_name(room, (*one_link)[0])
+			&& find_name(room, (*one_link)[1]))
+			adding_link_to_room(room, (*one_link)[0], (*one_link)[1]);
+		else
+			ft_error();
+		i = 0;
+		while ((*one_link)[i])
+			free((*one_link)[i++]);
+		free(*one_link);
+		one_link = NULL;
+	}
 	else
 		ft_error();
+}
+
+int		splitting_link(char *s)
+{
+	char	**temp;
+	int		i;
+
 	i = 0;
-	while (one_link[i])
-		free(one_link[i++]);
-	free(one_link);
-	while (get_next_line(0, &buf))
+	temp = ft_strsplit(s, '-');
+	if (temp[0][0] != 'L' || temp[1][0] != 'L' ||
+		temp[0][0] != '#' || temp[1][0] != '#')
 	{
-		making_str(str, buf);
-		if (strncmp(buf, "#", 1))
-		{
-			if (check_if_link(buf))
-			{
-				one_link = ft_strsplit(buf, '-');
-				if (find_name(room, one_link[0])
-					&& find_name(room, one_link[1]))
-					adding_link_to_room(room, one_link[0], one_link[1]);
-				else
-					ft_error();
-				i = 0;
-				while (one_link[i])
-					free(one_link[i++]);
-				free(one_link);
-				one_link = NULL;
-			}
-			else
-				ft_error();
-		}
-		free(buf);
+		while (temp[i])
+			free(temp[i++]);
+		free(temp);
+		return (1);
 	}
+	i = 0;
+	while (temp[i])
+		free(temp[i++]);
+	free(temp);
+	return (0);
 }
 
 int		check_if_link(char *s)
@@ -107,7 +111,6 @@ int		check_if_link(char *s)
 	size_t	i;
 	int		count;
 	int		space;
-	char	**temp;
 
 	i = 0;
 	count = 0;
@@ -122,21 +125,7 @@ int		check_if_link(char *s)
 	}
 	if (count == 1 && ft_strlen(s) >= 3 && s[0] != '-' &&
 		s[ft_strlen(s)] != '-' && space == 0)
-	{
-		temp = ft_strsplit(s, '-');
-		if (temp[0][0] != 'L' || temp[1][0] != 'L' ||
-			temp[0][0] != '#' || temp[1][0] != '#')
-		{
-			i = 0;
-			while (temp[i])
-				free(temp[i++]);
-			free(temp);
+		if (splitting_link(s))
 			return (1);
-		}
-		i = 0;
-		while (temp[i])
-			free(temp[i++]);
-		free(temp);
-	}
 	return (0);
 }
