@@ -12,36 +12,30 @@
 
 #include "../header/lem-in.h"
 
-void	adding_ants(t_room *rooms, t_link *before, t_link *current, int ant_name)
+void	adding_ants(t_room *r, t_link *b, t_link *c, int ant_name)
 {
-	t_room	*before_room;
 	t_room	*current_room;
 
-	if (current)
+	if (c)
 	{
-		adding_ants(rooms, current, current->next, ant_name);
-		if (before != NULL)
+		adding_ants(r, c, c->next, ant_name);
+		if (b != NULL)
 		{
-
-			before_room = find_room(rooms, before->room_name);
-			current_room = find_room(rooms, current->room_name);
-			if (before_room->ant != 0 && current_room->ant != 0)
+			current_room = find_room(r, c->room_name);
+			if (find_room(r, b->room_name)->ant != 0 && current_room->ant != 0)
 				current_room->ant = 0;
-			if (before_room->ant != 0 && current_room->ant == 0)
+			if (find_room(r, b->room_name)->ant != 0 && current_room->ant == 0)
 			{
-				current_room->ant = before_room->ant;
-				before_room->ant = 0;
-
-				printf("L%d", current_room->ant);
-				printf("-%s ", current_room->room_name);
+				current_room->ant = find_room(r, b->room_name)->ant;
+				find_room(r, b->room_name)->ant = 0;
+				printing_ants(current_room->ant, current_room->room_name, 1);
 			}
 		}
 		else
 		{
-			current_room = find_room(rooms, current->room_name);
+			current_room = find_room(r, c->room_name);
 			current_room->ant = ant_name;
-			printf("L%d", current_room->ant);
-			printf("-%s", current_room->room_name);
+			printing_ants(current_room->ant, current_room->room_name, 0);
 		}
 	}
 }
@@ -70,7 +64,7 @@ void	moving_rest_ants(t_room *rooms, t_link *current, t_link *next)
 {
 	t_room	*next_room;
 	t_room	*current_room;
-		
+
 	if (next)
 	{
 		moving_rest_ants(rooms, current->next, next->next);
@@ -82,8 +76,7 @@ void	moving_rest_ants(t_room *rooms, t_link *current, t_link *next)
 		{
 			next_room->ant = current_room->ant;
 			current_room->ant = 0;
-			printf("L%d", next_room->ant);
-			printf("-%s ", next_room->room_name);
+			printing_ants(current_room->ant, current->room_name, 1);
 		}
 	}
 	else
@@ -91,20 +84,6 @@ void	moving_rest_ants(t_room *rooms, t_link *current, t_link *next)
 		current_room = find_room(rooms, current->room_name);
 		current_room->ant = 0;
 	}
-}
-
-int		there_is_an_ant(t_room *rooms, t_path *path)
-{
-	t_link	*l;
-
-	l = path->links;
-	while (l)
-	{
-		if (find_room(rooms, l->room_name)->ant != 0)
-			return (1);
-		l = l->next;
-	}
-	return (0);
 }
 
 void	last_movement(t_room *rooms, t_path *path)
@@ -118,7 +97,7 @@ void	last_movement(t_room *rooms, t_path *path)
 		{
 			moving_rest_ants(rooms, p->links, p->links->next);
 			if (there_is_an_ant(rooms, p))
-				printf("\n");
+				ft_putstr("\n");
 			p = p->next;
 		}
 	}
@@ -140,13 +119,14 @@ void	running_ants(t_room *rooms, t_path *path, int n_ants)
 			{
 				adding_ants(rooms, NULL, p->links, i);
 				i++;
-				printf("%s %s", RED, RESET);
+				ft_putstr(" ");
 			}
-			else if (p->complexity >= n_ants - i + 1 && there_is_an_ant(rooms, p))
+			else if (p->complexity >= n_ants - i + 1 &&
+				there_is_an_ant(rooms, p))
 				moving_rest_ants(rooms, p->links, p->links->next);
 			p = p->next;
 		}
-		printf("\n");
+		ft_putstr("\n");
 	}
 	last_movement(rooms, path);
 }

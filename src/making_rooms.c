@@ -16,23 +16,28 @@ t_room	*adding_information(char *buf, t_room *temp, int *n, t_room *room)
 {
 	char	**room_split;
 	int		status;
+	int 	i;
 
+	i = -1;
 	status = *(n);
 	room_split = ft_strsplit(buf, ' ');
 	if (find_coord(temp, ft_atoi(room_split[1]), ft_atoi(room_split[2]))
 		|| find_name(temp, room_split[0]))
 		ft_error();
-	room->room_name = room_split[0];
+	room->room_name = ft_strdup(room_split[0]);
 	room->x = ft_atoi(room_split[1]);
 	room->y = ft_atoi(room_split[2]);
 	room->next = create_room();
 	room->status = status;
 	room = room->next;
 	*(n) = 0;
+	while (room_split[++i])
+		free(room_split[i]);
+	free(room_split);
 	return (room);
 }
 
-t_room	*filling_rooms(void)
+t_room	*filling_rooms(char **str)
 {
 	t_room	*room;
 	t_room	*temp;
@@ -44,11 +49,14 @@ t_room	*filling_rooms(void)
 	temp = room;
 	status = 0;
 	while (get_next_line(0, &buf))
+	{
+		making_str(str, buf);
 		if (!(buf[0] == '#' && buf[1] != '#'))
 		{
 			if (check_if_link(buf) && if_is_start_end(temp))
 			{
-				filling_links(temp, buf);
+				filling_links(temp, buf, str);
+				free(buf);
 				return (temp);
 			}
 			if (!ft_strncmp(buf, "##", 2))
@@ -56,6 +64,8 @@ t_room	*filling_rooms(void)
 			else if (strncmp(buf, "#", 1) && if_correct_room(buf))
 				room = adding_information(buf, temp, &status, room);
 		}
+		free(buf);
+	}
 	return (temp);
 }
 
@@ -101,17 +111,45 @@ void	check_coords(char *buf)
 			ft_error();
 		i++;
 	}
+	i = -1;
+	while (str[++i])
+		free(str[i]);
+	free(str);
 }
 
-int		correct_num(void)
+void	making_str(char **str, char *buf)
+{
+	char *res;
+
+	res = NULL;
+	if (*str == NULL)
+	{
+		res = ft_strdup(buf);
+		*str = res;
+	}
+	else
+	{
+		res = ft_strjoin(*str, "\n");
+		free(*str);
+		*str = res;
+		res = ft_strjoin(*str, buf);
+		free(*str);
+		*str = res;
+	}
+}
+
+int		correct_num(char **str)
 {
 	size_t	i;
+	int		j;
 	char	*buf;
 
 	i = 0;
+	j = 0;
 	buf = NULL;
 	while (get_next_line(0, &buf))
 	{
+		making_str(str, buf);
 		if (!strcmp(buf, "##start") || !strcmp(buf, "##end"))
 			ft_error();
 		if (strncmp(buf, "#", 1))
@@ -120,13 +158,18 @@ int		correct_num(void)
 				i++;
 			if (i < ft_strlen(buf))
 			{
-				ft_putstr("ERROR\n");
-				exit(0);
+				free(buf);
+				ft_error();
 			}
 			else
+			{
+				free(buf);
 				return (ft_atoi(buf));
+			}
 		}
+		free(buf);
 	}
+
 	ft_error();
 	return (0);
 }

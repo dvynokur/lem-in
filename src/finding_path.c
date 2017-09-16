@@ -121,7 +121,7 @@ t_path	*finding_path(t_room *rooms)
 	p = path;
 	end = find_first_end(rooms, 2);
 	check_if_path(rooms, end);
-	print_rooms(rooms);
+	// print_rooms(rooms);
 	while (i < rooms->max_ways)
 	{
 		if (filling_ways(rooms, end, p) && i + 1 < rooms->max_ways)

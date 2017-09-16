@@ -34,6 +34,7 @@ t_room	*create_room(void)
 void	ft_error()
 {
 	ft_putstr("ERROR\n");
+	while (1);
 	exit (0);
 }
 
@@ -49,7 +50,7 @@ t_link	*create_link(void)
 
 int 	status_check(char *buf, int status, t_room *room)
 {
-	if (status != 0)
+	if (status != 0 && (!ft_strcmp(buf, "##start") || !ft_strcmp(buf, "##end")))
 		ft_error();
 	if (!strcmp(buf, "##start"))
 	{
@@ -65,4 +66,18 @@ int 	status_check(char *buf, int status, t_room *room)
 		status = 2;
 	}
 	return (status);
+}
+
+int		there_is_an_ant(t_room *rooms, t_path *path)
+{
+	t_link	*l;
+
+	l = path->links;
+	while (l)
+	{
+		if (find_room(rooms, l->room_name)->ant != 0)
+			return (1);
+		l = l->next;
+	}
+	return (0);
 }

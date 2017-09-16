@@ -61,17 +61,24 @@ void	adding_link_to_room(t_room *room, char *first_link, char *second_link)
 	}
 }
 
-void	filling_links(t_room *room, char *first_link)
+void	filling_links(t_room *room, char *first_link, char **str)
 {
 	char	*buf;
 	char	**one_link;
+	int		i;
 
 	one_link = ft_strsplit(first_link, '-');
 	if (find_name(room, one_link[0]) && find_name(room, one_link[1]))
 		adding_link_to_room(room, one_link[0], one_link[1]);
 	else
 		ft_error();
+	i = 0;
+	while (one_link[i])
+		free(one_link[i++]);
+	free(one_link);
 	while (get_next_line(0, &buf))
+	{
+		making_str(str, buf);
 		if (strncmp(buf, "#", 1))
 		{
 			if (check_if_link(buf))
@@ -82,10 +89,17 @@ void	filling_links(t_room *room, char *first_link)
 					adding_link_to_room(room, one_link[0], one_link[1]);
 				else
 					ft_error();
+				i = 0;
+				while (one_link[i])
+					free(one_link[i++]);
+				free(one_link);
+				one_link = NULL;
 			}
 			else
 				ft_error();
 		}
+		free(buf);
+	}
 }
 
 int		check_if_link(char *s)
@@ -112,7 +126,17 @@ int		check_if_link(char *s)
 		temp = ft_strsplit(s, '-');
 		if (temp[0][0] != 'L' || temp[1][0] != 'L' ||
 			temp[0][0] != '#' || temp[1][0] != '#')
+		{
+			i = 0;
+			while (temp[i])
+				free(temp[i++]);
+			free(temp);
 			return (1);
+		}
+		i = 0;
+		while (temp[i])
+			free(temp[i++]);
+		free(temp);
 	}
 	return (0);
 }

@@ -60,6 +60,8 @@ void			ft_error();
 t_room			*create_room(void);
 t_link			*create_link(void);
 int				if_is_start_end(t_room *room);
+char			*add_to_str(char **str, char *buf);
+void			making_str(char **str, char *buf);
 
 //Find parameters
 int 			find_status(t_room *room, int status);
@@ -69,24 +71,25 @@ int				find_link(t_link *l, char *name);
 
 //Links
 int				check_if_link(char *s);
-void			filling_links(t_room *room, char *first_link);
+void			filling_links(t_room *room, char *first_link, char **str);
 void			adding_link_to_room(t_room *room, char *first_link, char *second_link);
 void			add_last_link(t_link *links, char *last_link);
 
 //Rooms
-t_room			*filling_rooms();
+t_room			*filling_rooms(char **str);
 int				if_correct_room(char *buf);
 void			check_coords(char *buf);
 int 			status_check(char *buf, int status, t_room *room);
 
 //Number of Ants
-int				correct_num(void);
+int				correct_num(char **text);
 
 //=============================== Printing =============================
 // Printing
 void			print_links(t_link *l);
 void 			print_rooms(t_room *room);
 void			print_ways(t_path *path);
+void			printing_ants(int ant, char *name, int n);
 
 
 //=============================== Finding path =========================
@@ -104,6 +107,7 @@ void			check_if_path(t_room *rooms, t_room *end);
 
 //=============================== Running ants =========================
 void			running_ants(t_room *rooms, t_path *path, int n_ants);
+int				there_is_an_ant(t_room *rooms, t_path *path);
 
 
 #endif
